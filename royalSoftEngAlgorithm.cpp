@@ -43,6 +43,27 @@ void RoyalSoftEngAlgorithm::readFile() {
 	}
 }
 
+void RoyalSoftEngAlgorithm::readFileForWorstCase() {
+	try {
+		std::fstream readFile;
+		readFile.open(filePath);
+
+		std::string currentLine;
+
+		while(std::getline(readFile, currentLine)) {
+			int pos = currentLine.find(',');
+
+			std::string firstSymbol = currentLine.substr(0, pos);
+			std::string secondSymbol = currentLine.substr(pos + 1, currentLine.length() - pos);
+
+			symbolsPairsForWorstCase.insert( std::pair<std::string, std::string>(firstSymbol, secondSymbol));
+			oppositeSymbolsPairsForWorstCase.insert( std::pair<std::string, std::string>(secondSymbol, firstSymbol));
+		}
+	} catch (std::exception const& e) {
+		std::cout << "an error has occurred! " << e.what() << std::endl;
+	}
+}
+
 
 void RoyalSoftEngAlgorithm::findMatchingSymbols() {
 	std::unordered_map<std::string, std::string>::iterator it = symbolPairs.begin(); // O(1)
@@ -59,6 +80,24 @@ void RoyalSoftEngAlgorithm::findMatchingSymbols() {
 		 // O(1)
 		if (oppositeSymbolPairs.find(results.front())  != oppositeSymbolPairs.end())
 			results.push_front(oppositeSymbolPairs[results.front()]);  // O(1)
+	}
+}
+
+void RoyalSoftEngAlgorithm::findMatchingSymbolsForWorstCase() {
+	std::map<std::string, std::string>::iterator it = symbolsPairsForWorstCase.begin();
+
+	results.push_front(symbolsPairsForWorstCase.begin()->first); // O(1)
+	results.push_back(symbolsPairsForWorstCase.begin()->second); // O(1)
+
+	while(symbolsPairsForWorstCase.find(results.back()) != symbolsPairsForWorstCase.end() || oppositeSymbolsPairsForWorstCase.find(results.front()) != oppositeSymbolsPairsForWorstCase.end()) {
+
+		 // O(logn)
+		if (symbolsPairsForWorstCase.find(results.back())  != symbolsPairsForWorstCase.end())
+			results.push_back(symbolsPairsForWorstCase[results.back()]);  // O(1)
+
+		// O(ogn)
+		if (oppositeSymbolsPairsForWorstCase.find(results.front())  != oppositeSymbolsPairsForWorstCase.end())
+			results.push_front(oppositeSymbolsPairsForWorstCase[results.front()]);  // O(1)
 	}
 }
 
