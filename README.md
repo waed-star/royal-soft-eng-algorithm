@@ -9,11 +9,20 @@ The years passed, and the local people gave names to the symbols decorating the 
 The Royal Software Engineer noted that processing the symbol names would be more efficient than processing images of the symbols, and proposed the following algorithm for computing the original sequence:
 
  1- Load the information from each brick into main memory, organising it in a manner suitable for efficient searching.
+ 
  2 - Arbitrarily choose one of the bricks as a starting point.
+ 
  3 - Taking the two symbol names from the starting brick, start constructing a result sequence elsewhere in main memory, northern name followed by southern name.
+ 
  4 - Repeatedly, until no matching brick is found:
+ 
    i - Search for the brick with a northern symbol that matches the back (easternmost) symbol in the result sequence.
+   
    ii - Add the southern symbol name from that brick to the back of the result sequence.
+   
  5 -  Repeatedly, until no matching brick is found:
+ 
    i - Search for the brick with a southern symbol that matches the front (westernmost) symbol in the result sequence.
+   
    ii - Add the northern symbol name from that brick to the front of the result sequence.
+   
